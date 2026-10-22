@@ -1,0 +1,595 @@
+import 'package:flutter/material.dart';
+import '../models/user_model.dart';
+import '../services/app_state.dart';
+import '../services/avatar_service.dart';
+import '../theme/app_theme.dart';
+import '../widgets/badges_modal.dart';
+
+class ProfileScreen extends StatefulWidget {
+  final AppState state;
+  final VoidCallback onLogout;
+
+  const ProfileScreen({
+    super.key,
+    required this.state,
+    required this.onLogout,
+  });
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _notificationsEnabled = true;
+
+  void _openBadgesModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => BadgesModal(badges: widget.state.badges),
+    );
+  }
+
+  void _showEditProfileDialog(UserModel user) {
+    final nameCtrl = TextEditingController(text: user.fullName);
+    int ageVal = user.age;
+    String genderVal = user.gender;
+    final smokePackCtrl = TextEditingController(text: user.smokingPackPrice.toStringAsFixed(0));
+    final smokeBaseCtrl = TextEditingController(text: user.smokingBaselineDaily.toString());
+    final alcoholPriceCtrl = TextEditingController(text: user.alcoholBaselinePrice.toStringAsFixed(0));
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) {
+          final previewAvatarId = AvatarService.getAvatarId(ageVal, genderVal);
+
+          return AlertDialog(
+            title: const Text('Profili ve Ayarları Düzenle', style: TextStyle(fontWeight: FontWeight.bold)),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Live Avatar Preview based on age & gender (avatarskill.md)
+                  Center(
+                    child: Column(
+                      children: [
+                        UserAvatarWidget(avatarId: previewAvatarId, radius: 36, showBadge: true),
+                        const SizedBox(height: 6),
+                        Text(
+                          AvatarService.getAvatarData(previewAvatarId).label,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.primary),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  TextField(
+                    controller: nameCtrl,
+                    decoration: const InputDecoration(labelText: 'Ad Soyad'),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Age Selector
+                  Row(
+                    children: [
+                      const Text('Yaş:', style: TextStyle(fontWeight: FontWeight.w600)),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.remove_circle_outline_rounded),
+                        onPressed: ageVal > 10 ? () => setDialogState(() => ageVal--) : null,
+                      ),
+                      Text('$ageVal', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                      IconButton(
+                        icon: const Icon(Icons.add_circle_outline_rounded),
+                        onPressed: ageVal < 99 ? () => setDialogState(() => ageVal++) : null,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Gender Dropdown
+                  DropdownButtonFormField<String>(
+                    initialValue: genderVal,
+                    decoration: const InputDecoration(labelText: 'Cinsiyet'),
+                    items: const [
+                      DropdownMenuItem(value: 'male', child: Text('Erkek')),
+                      DropdownMenuItem(value: 'female', child: Text('Kadın')),
+                      DropdownMenuItem(value: 'unisex', child: Text('Belirtmek İstemiyorum')),
+                    ],
+                    onChanged: (val) {
+                      if (val != null) {
+                        setDialogState(() => genderVal = val);
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Baseline Prices
+                  TextField(
+                    controller: smokePackCtrl,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(
+                      labelText: '1 Paket Sigara Fiyatı (TL)',
+                      suffixText: 'TL',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: smokeBaseCtrl,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Normalde İçilen Günlük Dal Sayısı',
+                      suffixText: 'dal',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: alcoholPriceCtrl,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(
+                      labelText: '1 Birim Alkol Maliyeti (TL)',
+                      suffixText: 'TL',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('İptal'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  widget.state.updateProfile(
+                    fullName: nameCtrl.text.trim().isNotEmpty ? nameCtrl.text.trim() : user.fullName,
+                    age: ageVal,
+                    gender: genderVal,
+                    smokingBaselineDaily: int.tryParse(smokeBaseCtrl.text) ?? user.smokingBaselineDaily,
+                    smokingPackPrice: double.tryParse(smokePackCtrl.text) ?? user.smokingPackPrice,
+                    alcoholBaselinePrice: double.tryParse(alcoholPriceCtrl.text) ?? user.alcoholBaselinePrice,
+                  );
+                  Navigator.of(ctx).pop();
+                },
+                child: const Text('Kaydet'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  void _confirmLogout() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Hesaptan Çıkış Yap', style: TextStyle(fontWeight: FontWeight.bold)),
+        content: const Text('Oturumunuz kapatılacaktır. Devam etmek istiyor musunuz?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Vazgeç'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              widget.onLogout();
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.error),
+            child: const Text('Çıkış Yap'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = widget.state.currentUser;
+    final unlockedBadges = widget.state.badges.where((b) => b.isUnlocked).toList();
+
+    return Scaffold(
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        title: const Text('Profil ve Başarılar'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 32),
+        child: Column(
+          children: [
+            // Üst Bölüm: Kimlik ve Avatar (profilskill.md & avatarskill.md)
+            Container(
+              margin: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppTheme.outlineVariant),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  if (user != null) ...[
+                    UserAvatarWidget(
+                      avatarId: user.avatarId,
+                      radius: 44,
+                      showBadge: true,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      user.fullName,
+                      style: const TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      user.email,
+                      style: const TextStyle(fontSize: 13, color: AppTheme.textMuted),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildProfileTag(
+                          icon: Icons.cake_rounded,
+                          label: '${user.age} Yaş',
+                          color: AppTheme.primary,
+                        ),
+                        const SizedBox(width: 8),
+                        _buildProfileTag(
+                          icon: Icons.person_rounded,
+                          label: user.gender == 'male'
+                              ? 'Erkek'
+                              : (user.gender == 'female' ? 'Kadın' : 'Belirtilmedi'),
+                          color: AppTheme.fitness,
+                        ),
+                        const SizedBox(width: 8),
+                        _buildProfileTag(
+                          icon: Icons.shield_rounded,
+                          label: AvatarService.getAvatarData(user.avatarId).label,
+                          color: AppTheme.mindGames,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    OutlinedButton.icon(
+                      onPressed: () => _showEditProfileDialog(user),
+                      icon: const Icon(Icons.edit_rounded, size: 16),
+                      label: const Text('Profili ve Ayarları Düzenle'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+
+            // Orta Bölüm 1: Rozet Vitrini (profilderozetsergilemeskill.md)
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppTheme.outlineVariant),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.workspace_premium_rounded,
+                              color: Color(0xFFD97706), size: 22),
+                          const SizedBox(width: 8),
+                          const Text(
+                            'Kazanılan Rozetler',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      TextButton(
+                        onPressed: _openBadgesModal,
+                        child: const Text('Tümünü Gör →', style: TextStyle(fontWeight: FontWeight.w700)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  if (unlockedBadges.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      child: Text(
+                        'Henüz rozet kazanılmadı. Alışkanlıklarınızı düzenli yaparak rozetleri açın!',
+                        style: TextStyle(fontSize: 13, color: AppTheme.textMuted),
+                      ),
+                    )
+                  else
+                    SizedBox(
+                      height: 94,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: unlockedBadges.length,
+                        itemBuilder: (context, index) {
+                          final badge = unlockedBadges[index];
+                          return Container(
+                            width: 82,
+                            margin: const EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: badge.tierColor.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(color: badge.tierColor, width: 1.5),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(badge.icon, size: 28, color: badge.tierColor),
+                                const SizedBox(height: 6),
+                                Text(
+                                  badge.title,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppTheme.textPrimary,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                ],
+              ),
+            ),
+
+            // Orta Bölüm 2: Genel Başarı Özeti Kartları (profilskill.md)
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppTheme.outlineVariant),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Genel Başarı Özeti',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatItem(
+                          title: 'Tasarruf Edilen',
+                          value: '${widget.state.totalMoneySaved.toStringAsFixed(0)} TL',
+                          icon: Icons.savings_rounded,
+                          color: AppTheme.quitSmoking,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: _buildStatItem(
+                          title: 'Yakılan Kalori',
+                          value: '${widget.state.totalCaloriesBurned.toStringAsFixed(0)} kcal',
+                          icon: Icons.local_fire_department_rounded,
+                          color: AppTheme.fitness,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatItem(
+                          title: 'En Uzun Seri',
+                          value: '${widget.state.maxStreakRecord} Gün',
+                          icon: Icons.bolt_rounded,
+                          color: const Color(0xFFEA580C),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: _buildStatItem(
+                          title: 'Tamamlanan',
+                          value: '${widget.state.totalCompletedActivities} Aktivite',
+                          icon: Icons.check_circle_rounded,
+                          color: AppTheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // Alt Bölüm: Ayarlar ve Hesap İşlemleri (profilskill.md)
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              child: Material(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: const BorderSide(color: AppTheme.outlineVariant),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Uygulama Ayarları',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Günlük Hatırlatıcı Bildirimler', style: TextStyle(fontSize: 14)),
+                    subtitle: const Text('Her akşam zinciri tamamlamanızı hatırlatır', style: TextStyle(fontSize: 12, color: AppTheme.textMuted)),
+                    value: _notificationsEnabled,
+                    activeThumbColor: AppTheme.primary,
+                    onChanged: (val) => setState(() => _notificationsEnabled = val),
+                  ),
+
+                  const Divider(height: 1, color: AppTheme.outlineVariant),
+                  const SizedBox(height: 8),
+
+                  // Demo Data Reset / Load
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.refresh_rounded, color: AppTheme.primary),
+                    title: const Text('Örnek Verileri Yeniden Yükle', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                    subtitle: const Text('Grafik ve takvim verilerini sıfırlayıp demo yükler', style: TextStyle(fontSize: 12, color: AppTheme.textMuted)),
+                    trailing: OutlinedButton(
+                      onPressed: () {
+                        widget.state.loadSampleData();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Örnek veriler başarıyla yüklendi!')),
+                        );
+                      },
+                      child: const Text('Yükle'),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Hesaptan Çıkış Yap Butonu (hesapcikis.md)
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: _confirmLogout,
+                      icon: const Icon(Icons.logout_rounded, size: 18),
+                      label: const Text('Hesaptan Çıkış Yap'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.error,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileTag({
+    required IconData icon,
+    required String label,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem({
+    required String title,
+    required String value,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
