@@ -163,6 +163,136 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void _showAvatarPicker(BuildContext context) {
+    final user = widget.state.currentUser;
+    if (user == null) return;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 28),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 44,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: AppTheme.outlineVariant,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                const Icon(Icons.face_retouching_natural_rounded, color: AppTheme.primary, size: 22),
+                const SizedBox(width: 8),
+                const Text(
+                  'Gerçekçi Avatarını Seç',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textPrimary,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.close_rounded, size: 20),
+                  onPressed: () => Navigator.of(ctx).pop(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Konu bütünlüğüyle tasarlanmış sağlıklı yaşam ve alışkanlık karakterleri:',
+              style: TextStyle(fontSize: 12.5, color: AppTheme.textSecondary),
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              height: 380,
+              child: GridView.builder(
+                itemCount: AvatarService.avatars.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.82,
+                ),
+                itemBuilder: (ctx, index) {
+                  final avatar = AvatarService.avatars.values.elementAt(index);
+                  final isSelected = user.avatarId == avatar.id;
+
+                  return InkWell(
+                    onTap: () {
+                      widget.state.updateProfile(avatarId: avatar.id);
+                      Navigator.of(ctx).pop();
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppTheme.primary.withValues(alpha: 0.08)
+                            : AppTheme.surfaceMuted,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: isSelected ? AppTheme.primary : AppTheme.outlineVariant,
+                          width: isSelected ? 2 : 1,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          UserAvatarWidget(
+                            avatarId: avatar.id,
+                            radius: 26,
+                            showBadge: true,
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            avatar.label,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                              color: isSelected ? AppTheme.primary : AppTheme.textPrimary,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            avatar.description.split('(').first.trim(),
+                            style: TextStyle(
+                              fontSize: 9,
+                              color: isSelected ? AppTheme.primary : AppTheme.textMuted,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _confirmLogout() {
     showDialog(
       context: context,
@@ -222,10 +352,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (user != null) ...[
                     UserAvatarWidget(
                       avatarId: user.avatarId,
-                      radius: 44,
+                      radius: 46,
                       showBadge: true,
+                      onTap: () => _showAvatarPicker(context),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
+                    InkWell(
+                      onTap: () => _showAvatarPicker(context),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2)),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.auto_awesome_rounded, size: 13, color: AppTheme.primary),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${AvatarService.getAvatarData(user.avatarId).label} • Değiştir',
+                              style: const TextStyle(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     Text(
                       user.fullName,
                       style: const TextStyle(

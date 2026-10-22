@@ -143,6 +143,7 @@ class AppState extends ChangeNotifier {
     String? fullName,
     int? age,
     String? gender,
+    String? avatarId,
     int? smokingBaselineDaily,
     double? smokingPackPrice,
     double? alcoholBaselinePrice,
@@ -152,7 +153,10 @@ class AppState extends ChangeNotifier {
 
     final newAge = age ?? _currentUser!.age;
     final newGender = gender ?? _currentUser!.gender;
-    final newAvatarId = AvatarService.getAvatarId(newAge, newGender);
+    final newAvatarId = avatarId ??
+        ((age != null || gender != null)
+            ? AvatarService.getAvatarId(newAge, newGender)
+            : _currentUser!.avatarId);
 
     _currentUser = _currentUser!.copyWith(
       fullName: fullName,
@@ -813,24 +817,181 @@ class AppState extends ChangeNotifier {
       isBookFinished: true,
     ));
 
-    // Previous days
-    for (int i = 6; i <= 24; i += 2) {
+    // 6 days ago: Running + Reading (Koşu + Kitap Kombosu: Zihin & Beden)
+    final day6 = now.subtract(const Duration(days: 6));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d6_run',
+      habitId: 'habit_run',
+      category: 'running',
+      date: _formatDate(day6),
+      distanceKm: 4.8,
+      caloriesBurned: 312.0,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d6_book',
+      habitId: 'habit_book',
+      category: 'reading',
+      date: _formatDate(day6),
+      pagesRead: 40,
+      bookTotalPages: 250,
+      bookGenre: 'Felsefe',
+      isBookFinished: false,
+    ));
+
+    // 7 days ago: Fitness + Water (Hidrasyon & Güç)
+    final day7 = now.subtract(const Duration(days: 7));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d7_fit',
+      habitId: 'habit_fit',
+      category: 'fitness',
+      date: _formatDate(day7),
+      durationMinutes: 45,
+      caloriesBurned: 380.0,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d7_water',
+      habitId: 'habit_water',
+      category: 'water',
+      date: _formatDate(day7),
+      waterLiters: 3.2,
+    ));
+
+    // 8 days ago: Reading + Mind Games (Bilişsel Odak)
+    final day8 = now.subtract(const Duration(days: 8));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d8_book',
+      habitId: 'habit_book',
+      category: 'reading',
+      date: _formatDate(day8),
+      pagesRead: 30,
+      bookTotalPages: 250,
+      bookGenre: 'Bilim',
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d8_mind',
+      habitId: 'habit_mind',
+      category: 'mind_games',
+      date: _formatDate(day8),
+      durationMinutes: 35,
+      bookGenre: 'Satranç',
+    ));
+
+    // 9 days ago: 3-Habit Combo (Koşu + Beslenme + Su: Canlılık Üçlüsü)
+    final day9 = now.subtract(const Duration(days: 9));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d9_run',
+      habitId: 'habit_run',
+      category: 'running',
+      date: _formatDate(day9),
+      distanceKm: 5.0,
+      caloriesBurned: 325.0,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d9_food',
+      habitId: 'habit_food',
+      category: 'healthy_food',
+      date: _formatDate(day9),
+      mealCalories: 450,
+      caloriesSaved: 350.0,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d9_water',
+      habitId: 'habit_water',
+      category: 'water',
+      date: _formatDate(day9),
+      waterLiters: 2.8,
+    ));
+
+    // 10 days ago: 4-Habit Master Combo (Fitness + Koşu + Kitap + Su)
+    final day10 = now.subtract(const Duration(days: 10));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d10_fit',
+      habitId: 'habit_fit',
+      category: 'fitness',
+      date: _formatDate(day10),
+      durationMinutes: 40,
+      caloriesBurned: 340.0,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d10_run',
+      habitId: 'habit_run',
+      category: 'running',
+      date: _formatDate(day10),
+      distanceKm: 3.5,
+      caloriesBurned: 227.5,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d10_book',
+      habitId: 'habit_book',
+      category: 'reading',
+      date: _formatDate(day10),
+      pagesRead: 25,
+      bookGenre: 'Kişisel Gelişim',
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d10_water',
+      habitId: 'habit_water',
+      category: 'water',
+      date: _formatDate(day10),
+      waterLiters: 3.0,
+    ));
+
+    // 11 days ago: Quit Smoking + Running (Temiz Nefes)
+    final day11 = now.subtract(const Duration(days: 11));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d11_smoke',
+      habitId: 'habit_smoke',
+      category: 'quit_smoking',
+      date: _formatDate(day11),
+      smokedCount: 0,
+      avoidedCount: 20,
+      moneySavedTL: 75.0,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d11_run',
+      habitId: 'habit_run',
+      category: 'running',
+      date: _formatDate(day11),
+      distanceKm: 4.2,
+      caloriesBurned: 273.0,
+    ));
+
+    // 12 days ago: Swimming + Water (Mavi Dalga)
+    final day12 = now.subtract(const Duration(days: 12));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d12_swim',
+      habitId: 'habit_swim',
+      category: 'swimming',
+      date: _formatDate(day12),
+      durationMinutes: 45,
+      caloriesBurned: 382.5,
+    ));
+    sampleLogs.add(ActivityLogModel(
+      id: 'sample_d12_water',
+      habitId: 'habit_water',
+      category: 'water',
+      date: _formatDate(day12),
+      waterLiters: 2.5,
+    ));
+
+    // Earlier days: routine healthy living logs
+    for (int i = 14; i <= 26; i += 3) {
       final pastDate = now.subtract(Duration(days: i));
       sampleLogs.add(ActivityLogModel(
         id: 'sample_past_$i',
         habitId: 'habit_water',
         category: 'water',
         date: _formatDate(pastDate),
-        waterLiters: 2.0,
+        waterLiters: 2.5,
       ));
       sampleLogs.add(ActivityLogModel(
         id: 'sample_past_smoke_$i',
         habitId: 'habit_smoke',
         category: 'quit_smoking',
         date: _formatDate(pastDate),
-        smokedCount: 2,
-        avoidedCount: 18,
-        moneySavedTL: 67.5,
+        smokedCount: 0,
+        avoidedCount: 20,
+        moneySavedTL: 75.0,
       ));
     }
 
