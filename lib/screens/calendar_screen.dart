@@ -29,26 +29,26 @@ class HabitCombinationHelper {
   static Color getCategoryColor(String category) {
     switch (category) {
       case 'swimming':
-        return const Color(0xFF0284C7); // Okyanus Mavisi
+        return const Color(0xFF4A88C7); // Dingin Okyanus Mavisi
       case 'running':
-        return const Color(0xFF10B981); // Zümrüt Yeşili
+        return const Color(0xFF48A97C); // Sakin Adaçayı Yeşili
       case 'reading':
-        return const Color(0xFFF59E0B); // Kehribar / Kitap Sarısı
+        return const Color(0xFFD99B43); // Sıcak Kehribar / Kum Sarısı
       case 'fitness':
-        return const Color(0xFFEF4444); // Ateş Kırmızısı / Mercan
+        return const Color(0xFFD96B5B); // Yumuşak Mercan / Kiremit
       case 'water':
-        return const Color(0xFF06B6D4); // Canlı Su Turkuazı
+        return const Color(0xFF48A6BE); // Berrak Su Mavisi / Yumuşak Turkuaz
       case 'mind_games':
-        return const Color(0xFF8B5CF6); // Ametist Moru
+        return const Color(0xFF8A7AA8); // Yumuşak Lavanta
       case 'healthy_food':
-        return const Color(0xFF84CC16); // Taze Yeşil
+        return const Color(0xFF6F9E60); // Taze Zeytin Yeşili
       case 'quit_smoking':
-        return const Color(0xFFEC4899); // Canlı Pembe
+        return const Color(0xFFC76E87); // Yumuşak Gül Kurusu / Pudra
       case 'quit_alcohol':
-        return const Color(0xFFA855F7); // Menekşe
+        return const Color(0xFF976E9F); // Yumuşak Mürdüm
       case 'other_sports':
       default:
-        return const Color(0xFF3B82F6); // İndigo
+        return const Color(0xFF5A78A5); // Dingin İndigo / Denim
     }
   }
 
@@ -140,7 +140,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Yüzme + Koşu (Deniz & Kara)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF00E5FF), Color(0xFF2563EB), Color(0xFF10B981)],
+          gradientColors: const [Color(0xFF4A88C7), Color(0xFF48A97C)],
           habitColors: habitColors,
           icon: Icons.bolt_rounded,
           isMultiHabit: true,
@@ -153,7 +153,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Koşu + Kitap (Zihin & Beden)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF10B981), Color(0xFFF59E0B)],
+          gradientColors: const [Color(0xFF48A97C), Color(0xFFD99B43)],
           habitColors: habitColors,
           icon: Icons.auto_awesome_rounded,
           isMultiHabit: true,
@@ -166,7 +166,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Fitness + Su (Hidrasyon & Güç)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFFF5722), Color(0xFF06B6D4)],
+          gradientColors: const [Color(0xFFD96B5B), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.local_fire_department_rounded,
           isMultiHabit: true,
@@ -179,7 +179,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Kitap + Zeka (Bilişsel Odak)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFF59E0B), Color(0xFF8B5CF6)],
+          gradientColors: const [Color(0xFFD99B43), Color(0xFF8A7AA8)],
           habitColors: habitColors,
           icon: Icons.psychology_rounded,
           isMultiHabit: true,
@@ -192,7 +192,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Koşu + Fitness (Yüksek Efor)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF10B981), Color(0xFFEF4444)],
+          gradientColors: const [Color(0xFF48A97C), Color(0xFFD96B5B)],
           habitColors: habitColors,
           icon: Icons.whatshot_rounded,
           isMultiHabit: true,
@@ -205,7 +205,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Beslenme + Su (Saf Detoks)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF84CC16), Color(0xFF06B6D4)],
+          gradientColors: const [Color(0xFF6F9E60), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.eco_rounded,
           isMultiHabit: true,
@@ -218,7 +218,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Koşu + Sigara Bırakma (Temiz Nefes)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF10B981), Color(0xFFEC4899)],
+          gradientColors: const [Color(0xFF48A97C), Color(0xFFC76E87)],
           habitColors: habitColors,
           icon: Icons.air_rounded,
           isMultiHabit: true,
@@ -231,7 +231,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Sigara + Alkol Bırakma (Tam Arınma)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFEC4899), Color(0xFFA855F7)],
+          gradientColors: const [Color(0xFFC76E87), Color(0xFF976E9F)],
           habitColors: habitColors,
           icon: Icons.shield_rounded,
           isMultiHabit: true,
@@ -244,7 +244,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Kitap + Su (Dingin Zihin)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFF59E0B), Color(0xFF0284C7)],
+          gradientColors: const [Color(0xFFD99B43), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.spa_rounded,
           isMultiHabit: true,
@@ -257,7 +257,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Fitness + Beslenme (Fit Form)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFEF4444), Color(0xFF84CC16)],
+          gradientColors: const [Color(0xFFD96B5B), Color(0xFF6F9E60)],
           habitColors: habitColors,
           icon: Icons.fitness_center_rounded,
           isMultiHabit: true,
@@ -270,7 +270,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Yüzme + Kitap (Ruh & Beden)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF0284C7), Color(0xFFF59E0B)],
+          gradientColors: const [Color(0xFF4A88C7), Color(0xFFD99B43)],
           habitColors: habitColors,
           icon: Icons.waves_rounded,
           isMultiHabit: true,
@@ -283,9 +283,35 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Yüzme + Su (Mavi Dalga)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF0284C7), Color(0xFF38BDF8)],
+          gradientColors: const [Color(0xFF4A88C7), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.pool_rounded,
+          isMultiHabit: true,
+        );
+      }
+
+      // Running + Water (Mavi Rüzgar)
+      if (categories.contains('running') && categories.contains('water')) {
+        return HabitComboInfo(
+          key: comboKey,
+          title: 'Koşu + Su (Mavi Rüzgar)',
+          subtitle: '2 Alışkanlık Kombosu',
+          gradientColors: const [Color(0xFF48A97C), Color(0xFF48A6BE)],
+          habitColors: habitColors,
+          icon: Icons.air_rounded,
+          isMultiHabit: true,
+        );
+      }
+
+      // Quit Smoking + Water (Detoks & Arınma)
+      if (categories.contains('quit_smoking') && categories.contains('water')) {
+        return HabitComboInfo(
+          key: comboKey,
+          title: 'Sigara Bırakma + Su (Detoks)',
+          subtitle: '2 Alışkanlık Kombosu',
+          gradientColors: const [Color(0xFFC76E87), Color(0xFF48A6BE)],
+          habitColors: habitColors,
+          icon: Icons.spa_rounded,
           isMultiHabit: true,
         );
       }
@@ -296,7 +322,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Koşu + Zeka (Hız & Strateji)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF10B981), Color(0xFF8B5CF6)],
+          gradientColors: const [Color(0xFF48A97C), Color(0xFF8A7AA8)],
           habitColors: habitColors,
           icon: Icons.insights_rounded,
           isMultiHabit: true,
@@ -309,7 +335,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Fitness + Sigara Bırakma (Canlanma)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFFF5722), Color(0xFFEC4899)],
+          gradientColors: const [Color(0xFFD96B5B), Color(0xFFC76E87)],
           habitColors: habitColors,
           icon: Icons.favorite_rounded,
           isMultiHabit: true,
@@ -322,7 +348,7 @@ class HabitCombinationHelper {
           key: comboKey,
           title: 'Kitap + Beslenme (Bilinçli Yaşam)',
           subtitle: '2 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFF59E0B), Color(0xFF84CC16)],
+          gradientColors: const [Color(0xFFD99B43), Color(0xFF6F9E60)],
           habitColors: habitColors,
           icon: Icons.wb_sunny_rounded,
           isMultiHabit: true,
@@ -346,9 +372,9 @@ class HabitCombinationHelper {
       if (categories.contains('reading') && categories.contains('running') && categories.contains('swimming')) {
         return HabitComboInfo(
           key: comboKey,
-          title: 'Altın Üçlü (Yüzme + Koşu + Kitap)',
-          subtitle: '3 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF00E5FF), Color(0xFF10B981), Color(0xFFF59E0B)],
+          title: 'Altın Üçlü',
+          subtitle: 'Yüzme + Koşu + Kitap',
+          gradientColors: const [Color(0xFF4A88C7), Color(0xFF48A97C), Color(0xFFD99B43)],
           habitColors: habitColors,
           icon: Icons.emoji_events_rounded,
           isMultiHabit: true,
@@ -358,9 +384,9 @@ class HabitCombinationHelper {
       if (categories.contains('fitness') && categories.contains('running') && categories.contains('water')) {
         return HabitComboInfo(
           key: comboKey,
-          title: 'Triatlon Gücü (Koşu + Fitness + Su)',
-          subtitle: '3 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF10B981), Color(0xFFEF4444), Color(0xFF06B6D4)],
+          title: 'Triatlon Gücü',
+          subtitle: 'Koşu + Fitness + Su',
+          gradientColors: const [Color(0xFF48A97C), Color(0xFFD96B5B), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.flash_on_rounded,
           isMultiHabit: true,
@@ -370,9 +396,9 @@ class HabitCombinationHelper {
       if (categories.contains('mind_games') && categories.contains('reading') && categories.contains('water')) {
         return HabitComboInfo(
           key: comboKey,
-          title: 'Zihin Maratonu (Kitap + Zeka + Su)',
-          subtitle: '3 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFF59E0B), Color(0xFF8B5CF6), Color(0xFF06B6D4)],
+          title: 'Zihin Maratonu',
+          subtitle: 'Kitap + Zeka + Su',
+          gradientColors: const [Color(0xFFD99B43), Color(0xFF8A7AA8), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.psychology_rounded,
           isMultiHabit: true,
@@ -382,9 +408,9 @@ class HabitCombinationHelper {
       if (categories.contains('healthy_food') && categories.contains('running') && categories.contains('water')) {
         return HabitComboInfo(
           key: comboKey,
-          title: 'Canlılık Üçlüsü (Koşu + Beslenme + Su)',
-          subtitle: '3 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFF10B981), Color(0xFF84CC16), Color(0xFF06B6D4)],
+          title: 'Canlılık Üçlüsü',
+          subtitle: 'Koşu + Beslenme + Su',
+          gradientColors: const [Color(0xFF48A97C), Color(0xFF6F9E60), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.volunteer_activism_rounded,
           isMultiHabit: true,
@@ -394,11 +420,35 @@ class HabitCombinationHelper {
       if (categories.contains('quit_alcohol') && categories.contains('quit_smoking') && categories.contains('water')) {
         return HabitComboInfo(
           key: comboKey,
-          title: 'Büyük Arınma (Detoks & Tasarruf)',
-          subtitle: '3 Alışkanlık Kombosu',
-          gradientColors: const [Color(0xFFEC4899), Color(0xFFA855F7), Color(0xFF06B6D4)],
+          title: 'Büyük Arınma',
+          subtitle: 'Detoks & Tasarruf',
+          gradientColors: const [Color(0xFFC76E87), Color(0xFF976E9F), Color(0xFF48A6BE)],
           habitColors: habitColors,
           icon: Icons.verified_user_rounded,
+          isMultiHabit: true,
+        );
+      }
+
+      if (categories.contains('running') && categories.contains('swimming') && categories.contains('water')) {
+        return HabitComboInfo(
+          key: comboKey,
+          title: 'Mavi Güç (Triatlon)',
+          subtitle: 'Yüzme + Koşu + Su',
+          gradientColors: const [Color(0xFF4A88C7), Color(0xFF48A97C), Color(0xFF48A6BE)],
+          habitColors: habitColors,
+          icon: Icons.bolt_rounded,
+          isMultiHabit: true,
+        );
+      }
+
+      if (categories.contains('reading') && categories.contains('quit_smoking') && categories.contains('water')) {
+        return HabitComboInfo(
+          key: comboKey,
+          title: 'Bilinçli Zihin',
+          subtitle: 'Kitap + Su + Arınma',
+          gradientColors: const [Color(0xFFD99B43), Color(0xFF48A6BE), Color(0xFFC76E87)],
+          habitColors: habitColors,
+          icon: Icons.spa_rounded,
           isMultiHabit: true,
         );
       }
@@ -407,8 +457,8 @@ class HabitCombinationHelper {
       final titles = categories.map((c) => getCategoryTitle(c)).join(' + ');
       return HabitComboInfo(
         key: comboKey,
-        title: '3\'lü Seri ($titles)',
-        subtitle: '3 Alışkanlık Kombosu',
+        title: '3\'lü Seri',
+        subtitle: titles,
         gradientColors: habitColors,
         habitColors: habitColors,
         icon: Icons.military_tech_rounded,
@@ -418,15 +468,12 @@ class HabitCombinationHelper {
 
     // 4. 4 or More Habits (Super Master Spectrum)
     final titles = categories.map((c) => getCategoryTitle(c)).join(' + ');
-    final multiColors = habitColors.length > 5
-        ? [habitColors[0], habitColors[2], habitColors[4], habitColors.last]
-        : habitColors;
 
     return HabitComboInfo(
       key: comboKey,
-      title: '${categories.length}\'li Usta Serisi ($titles)',
-      subtitle: '${categories.length} Alışkanlık Süper Kombosu',
-      gradientColors: multiColors,
+      title: '${categories.length}\'li Usta Serisi',
+      subtitle: titles,
+      gradientColors: const [Color(0xFF4A6B82), Color(0xFF5A78A5), Color(0xFF48A97C)],
       habitColors: habitColors,
       icon: Icons.workspace_premium_rounded,
       isMultiHabit: true,
@@ -449,11 +496,12 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime _selectedMonth;
   late DateTime _selectedDay;
+  String? _selectedCategoryFilter; // null = Tümü, otherwise category key like 'water'
 
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
+    final now = widget.state.currentDateTime;
     _selectedMonth = DateTime(now.year, now.month, 1);
     _selectedDay = DateTime(now.year, now.month, now.day);
   }
@@ -471,7 +519,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void _goToToday() {
-    final now = DateTime.now();
+    final now = widget.state.currentDateTime;
     setState(() {
       _selectedMonth = DateTime(now.year, now.month, 1);
       _selectedDay = DateTime(now.year, now.month, now.day);
@@ -493,6 +541,61 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return months[month - 1];
   }
 
+  Widget _buildHabitFilterChip({
+    required String label,
+    IconData? icon,
+    required bool isSelected,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5.5),
+        decoration: BoxDecoration(
+          color: isSelected ? color : AppTheme.surfaceMuted,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? color : AppTheme.outlineVariant,
+            width: isSelected ? 1.6 : 1.0,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.28),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) ...[
+              Icon(
+                icon,
+                size: 14,
+                color: isSelected ? Colors.white : color,
+              ),
+              const SizedBox(width: 5),
+            ],
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                color: isSelected ? Colors.white : AppTheme.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final year = _selectedMonth.year;
@@ -506,14 +609,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final selectedDayLogs = widget.state.getLogsForDate(selectedDateStr);
     final selectedCombo = HabitCombinationHelper.getComboInfo(selectedDayLogs);
 
-    // Count days with completions this month
+    // Count days with completions this month based on filter
     int activeDaysThisMonth = 0;
     for (int d = 1; d <= daysInMonth; d++) {
       final dateStr = _formatDate(DateTime(year, month, d));
-      if (widget.state.getLogsForDate(dateStr).isNotEmpty) {
-        activeDaysThisMonth++;
+      final logs = widget.state.getLogsForDate(dateStr);
+      if (_selectedCategoryFilter != null) {
+        final hasActive = logs.any((l) =>
+            l.category == _selectedCategoryFilter &&
+            (l.category != 'quit_smoking' || (l.smokedCount ?? 0) == 0));
+        if (hasActive) activeDaysThisMonth++;
+      } else {
+        if (logs.isNotEmpty) activeDaysThisMonth++;
       }
     }
+
+    final activeFilterHabit = _selectedCategoryFilter != null
+        ? widget.state.habits.where((h) => h.category == _selectedCategoryFilter).firstOrNull
+        : null;
+    final activeFilterTitle = activeFilterHabit?.title ??
+        (_selectedCategoryFilter != null
+            ? HabitCombinationHelper.getCategoryTitle(_selectedCategoryFilter!)
+            : null);
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -522,143 +639,194 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 28),
-        child: Column(
-          children: [
-            // Unified Compact Calendar Card
-            Container(
-              margin: const EdgeInsets.fromLTRB(14, 6, 14, 10),
-              padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppTheme.outlineVariant),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.03),
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Compact Header: Month Navigation + Quick Stats
-                  Row(
-                    children: [
-                      // Month Title + Year
-                      Text(
-                        '${_monthName(month)} $year',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      // Mini monthly active badge
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primary.withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          '🔥 $activeDaysThisMonth Gün Aktif',
-                          style: const TextStyle(
-                            fontSize: 10.5,
-                            fontWeight: FontWeight.w700,
-                            color: AppTheme.primary,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      // "Bugün" Jump Button
-                      InkWell(
-                        onTap: _goToToday,
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: AppTheme.surfaceMuted,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: AppTheme.outlineVariant),
-                          ),
-                          child: const Text(
-                            'Bugün',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.textSecondary,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      // Prev Month Arrow
-                      InkWell(
-                        onTap: _prevMonth,
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: AppTheme.surfaceMuted,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(Icons.chevron_left_rounded, size: 20, color: AppTheme.textPrimary),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      // Next Month Arrow
-                      InkWell(
-                        onTap: _nextMonth,
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: AppTheme.surfaceMuted,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(Icons.chevron_right_rounded, size: 20, color: AppTheme.textPrimary),
-                        ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 630),
+            child: Column(
+              children: [
+                // Unified Compact Calendar Card
+                Container(
+                  margin: const EdgeInsets.fromLTRB(16, 10, 16, 14),
+                  padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(color: AppTheme.outlineVariant),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-
-                  // Compact Weekday Labels
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const ['PZT', 'SAL', 'ÇAR', 'PER', 'CUM', 'CMT', 'PAZ']
-                          .map((day) => Expanded(
-                                child: Center(
-                                  child: Text(
-                                    day,
-                                    style: const TextStyle(
-                                      fontSize: 10.5,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppTheme.textMuted,
-                                      letterSpacing: 0.2,
-                                    ),
-                                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Header: Month Navigation + Quick Stats
+                      Row(
+                        children: [
+                          // Month Title + Year
+                          Text(
+                            '${_monthName(month)} $year',
+                            style: const TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          // Mini monthly active badge
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primary.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              _selectedCategoryFilter != null
+                                  ? '🔥 $activeDaysThisMonth Gün $activeFilterTitle'
+                                  : '🔥 $activeDaysThisMonth Gün Aktif',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppTheme.primary,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          // "Bugün" Jump Button
+                          InkWell(
+                            onTap: _goToToday,
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: AppTheme.surfaceMuted,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: AppTheme.outlineVariant),
+                              ),
+                              child: const Text(
+                                'Bugün',
+                                style: TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.textSecondary,
                                 ),
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          // Prev Month Arrow
+                          InkWell(
+                            onTap: _prevMonth,
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: AppTheme.surfaceMuted,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(Icons.chevron_left_rounded, size: 22, color: AppTheme.textPrimary),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          // Next Month Arrow
+                          InkWell(
+                            onTap: _nextMonth,
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: AppTheme.surfaceMuted,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(Icons.chevron_right_rounded, size: 22, color: AppTheme.textPrimary),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Horizontal Quick Habit Filter Bar
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            _buildHabitFilterChip(
+                              label: '🌟 Tümü',
+                              isSelected: _selectedCategoryFilter == null,
+                              color: AppTheme.primary,
+                              onTap: () => setState(() => _selectedCategoryFilter = null),
+                            ),
+                            const SizedBox(width: 6),
+                            ...widget.state.habits.map((habit) {
+                              final cat = habit.category;
+                              final color = HabitCombinationHelper.getCategoryColor(cat);
+                              final streak = widget.state.calculateHabitStreak(habit.id);
+                              final isSelected = _selectedCategoryFilter == cat;
+
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 6),
+                                child: _buildHabitFilterChip(
+                                  label: '${habit.title} ($streak Gün)',
+                                  icon: HabitCombinationHelper.getCategoryIcon(cat),
+                                  isSelected: isSelected,
+                                  color: color,
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedCategoryFilter = isSelected ? null : cat;
+                                    });
+                                  },
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Weekday Labels
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: const ['PZT', 'SAL', 'ÇAR', 'PER', 'CUM', 'CMT', 'PAZ']
+                              .map((day) => Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        day,
+                                        style: const TextStyle(
+                                          fontSize: 13.5,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppTheme.textMuted,
+                                          letterSpacing: 0.3,
+                                        ),
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
 
                   // Mini Calendar Days Grid
                   _buildCompactMonthGrid(daysInMonth, startingWeekday, year, month),
+
+                  const SizedBox(height: 14),
+                  const Divider(height: 1, color: AppTheme.outlineVariant),
+                  const SizedBox(height: 12),
+
+                  // Direct Color Combinations Legend directly under the calendar
+                  _buildDirectCalendarLegend(),
                 ],
               ),
             ),
 
             // Selected Day Summary Card
             Container(
-              margin: const EdgeInsets.fromLTRB(14, 4, 14, 10),
+              margin: const EdgeInsets.fromLTRB(14, 4, 14, 16),
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -675,88 +843,106 @@ class _CalendarScreenState extends State<CalendarScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Day Header with Dynamic Combo Banner
+                  // Day Header with Dynamic Combo Banner (Overflow protected)
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primary.withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Icon(Icons.event_available_rounded, color: AppTheme.primary, size: 18),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primary.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(Icons.event_available_rounded, color: AppTheme.primary, size: 18),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${_selectedDay.day} ${_monthName(_selectedDay.month)} ${_selectedDay.year}',
+                            style: const TextStyle(
+                              fontSize: 14.5,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textPrimary,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        '${_selectedDay.day} ${_monthName(_selectedDay.month)} ${_selectedDay.year}',
-                        style: const TextStyle(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.textPrimary,
-                        ),
-                      ),
-                      const Spacer(),
-                      // Dynamic Combination Badge for the selected day
+                      // Dynamic Combination Badge for the selected day with overflow protection
                       if (selectedCombo != null && selectedCombo.isMultiHabit)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: selectedCombo.gradientColors,
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: selectedCombo.gradientColors.first.withValues(alpha: 0.35),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: selectedCombo.gradientColors,
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(selectedCombo.icon, size: 13, color: Colors.white),
-                              const SizedBox(width: 5),
-                              Text(
-                                selectedCombo.title,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: selectedCombo.gradientColors.first.withValues(alpha: 0.35),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(selectedCombo.icon, size: 13, color: Colors.white),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    selectedCombo.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         )
                       else if (selectedCombo != null && !selectedCombo.isMultiHabit)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
-                          decoration: BoxDecoration(
-                            color: selectedCombo.gradientColors.first.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: selectedCombo.gradientColors.first.withValues(alpha: 0.4),
-                              width: 1,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(selectedCombo.icon, size: 12, color: selectedCombo.gradientColors.first),
-                              const SizedBox(width: 4),
-                              Text(
-                                selectedCombo.title,
-                                style: TextStyle(
-                                  color: selectedCombo.gradientColors.first,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                            decoration: BoxDecoration(
+                              color: selectedCombo.gradientColors.first.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: selectedCombo.gradientColors.first.withValues(alpha: 0.4),
+                                width: 1,
                               ),
-                            ],
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(selectedCombo.icon, size: 12, color: selectedCombo.gradientColors.first),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    selectedCombo.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: selectedCombo.gradientColors.first,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                     ],
@@ -785,112 +971,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ],
               ),
             ),
-
-            // Color & Multi-Combination Legend Card
-            Container(
-              margin: const EdgeInsets.fromLTRB(14, 4, 14, 16),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: AppTheme.outlineVariant),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: const [
-                      Icon(Icons.palette_rounded, size: 16, color: AppTheme.primary),
-                      SizedBox(width: 6),
-                      Text(
-                        'Renk & Kombinasyon Göstergesi',
-                        style: TextStyle(
-                          fontSize: 13.5,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Her farklı alışkanlık kombinasyonu takvimde kendine özel bir renk karışımı ve gradyan ile gösterilir:',
-                    style: TextStyle(fontSize: 11.5, color: AppTheme.textSecondary),
-                  ),
-                  const SizedBox(height: 10),
-
-                  // Special Combinations Showcase
-                  const Text(
-                    'Özel Kombinasyon Renkleri',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
-                  ),
-                  const SizedBox(height: 6),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 6,
-                    children: [
-                      _buildGradientLegendBadge(
-                        label: 'Koşu + Kitap',
-                        colors: const [Color(0xFF10B981), Color(0xFFF59E0B)],
-                      ),
-                      _buildGradientLegendBadge(
-                        label: 'Yüzme + Koşu',
-                        colors: const [Color(0xFF00E5FF), Color(0xFF2563EB), Color(0xFF10B981)],
-                      ),
-                      _buildGradientLegendBadge(
-                        label: 'Fitness + Su',
-                        colors: const [Color(0xFFFF5722), Color(0xFF06B6D4)],
-                      ),
-                      _buildGradientLegendBadge(
-                        label: 'Kitap + Zeka',
-                        colors: const [Color(0xFFF59E0B), Color(0xFF8B5CF6)],
-                      ),
-                      _buildGradientLegendBadge(
-                        label: 'Beslenme + Su',
-                        colors: const [Color(0xFF84CC16), Color(0xFF06B6D4)],
-                      ),
-                      _buildGradientLegendBadge(
-                        label: '3\'lü Süper Seri',
-                        colors: const [Color(0xFF10B981), Color(0xFF84CC16), Color(0xFF06B6D4)],
-                      ),
-                      _buildGradientLegendBadge(
-                        label: '4+\'li Usta Serisi',
-                        colors: const [Color(0xFFEC4899), Color(0xFF8B5CF6), Color(0xFF3B82F6), Color(0xFF10B981)],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Single Habit Colors
-                  const Text(
-                    'Tekil Alışkanlıklar',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
-                  ),
-                  const SizedBox(height: 6),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 6,
-                    children: [
-                      _buildSingleLegendChip('Koşu', const Color(0xFF10B981)),
-                      _buildSingleLegendChip('Kitap', const Color(0xFFF59E0B)),
-                      _buildSingleLegendChip('Yüzme', const Color(0xFF0284C7)),
-                      _buildSingleLegendChip('Fitness', const Color(0xFFEF4444)),
-                      _buildSingleLegendChip('Su', const Color(0xFF06B6D4)),
-                      _buildSingleLegendChip('Zeka', const Color(0xFF8B5CF6)),
-                      _buildSingleLegendChip('Beslenme', const Color(0xFF84CC16)),
-                      _buildSingleLegendChip('Sigara/Alkol', const Color(0xFFEC4899)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  ),
+);
+}
 
-  /// Compact calendar grid with tighter aspect ratio and mini day cells
+  /// Compact calendar grid with tight aspect ratio and circular day cells
   Widget _buildCompactMonthGrid(int daysInMonth, int startingWeekday, int year, int month) {
     final List<Widget> dayWidgets = [];
 
@@ -900,18 +989,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
       dayWidgets.add(const SizedBox());
     }
 
-    final now = DateTime.now();
+    final now = widget.state.currentDateTime;
 
     for (int d = 1; d <= daysInMonth; d++) {
       final dayDate = DateTime(year, month, d);
       final dateStr = _formatDate(dayDate);
-      final logs = widget.state.getLogsForDate(dateStr);
+      final rawLogs = widget.state.getLogsForDate(dateStr);
       final isSelected = _selectedDay.year == year &&
           _selectedDay.month == month &&
           _selectedDay.day == d;
       final isToday = dayDate.year == now.year && dayDate.month == now.month && dayDate.day == now.day;
 
-      final combo = HabitCombinationHelper.getComboInfo(logs);
+      final List<ActivityLogModel> displayLogs;
+      if (_selectedCategoryFilter != null) {
+        displayLogs = rawLogs.where((l) =>
+            l.category == _selectedCategoryFilter &&
+            (l.category != 'quit_smoking' || (l.smokedCount ?? 0) == 0)).toList();
+      } else {
+        displayLogs = rawLogs;
+      }
+
+      final combo = HabitCombinationHelper.getComboInfo(displayLogs);
 
       dayWidgets.add(
         InkWell(
@@ -920,7 +1018,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               _selectedDay = dayDate;
             });
           },
-          borderRadius: BorderRadius.circular(12),
+          customBorder: const CircleBorder(),
           child: _buildDayCell(
             day: d,
             isSelected: isSelected,
@@ -935,151 +1033,182 @@ class _CalendarScreenState extends State<CalendarScreen> {
       crossAxisCount: 7,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 3,
-      crossAxisSpacing: 3,
-      childAspectRatio: 1.15, // Compact, non-stretched height
+      mainAxisSpacing: 8,
+      crossAxisSpacing: 8,
+      childAspectRatio: 1.0, // Dengeli ve doğal 1:1 dairesel oran
       children: dayWidgets,
     );
   }
 
-  /// Builds a compact, aesthetic calendar cell with distinct multi-color styling
+  /// Builds a prominent circular calendar cell (52x52px) with calm styling
   Widget _buildDayCell({
     required int day,
     required bool isSelected,
     required bool isToday,
     required HabitComboInfo? combo,
   }) {
-    // 1. Multi-habit combination day: vibrant gradient + micro-dots
+    // 1. Multi-habit combination day: elegant soft gradient circle + habit-colored micro-dots
     if (combo != null && combo.isMultiHabit) {
-      return Container(
-        margin: const EdgeInsets.all(1.5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(
-            colors: combo.gradientColors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          border: Border.all(
-            color: isSelected ? Colors.white : Colors.transparent,
-            width: isSelected ? 2.2 : 0,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: combo.gradientColors.first.withValues(alpha: 0.35),
-              blurRadius: 4,
-              offset: const Offset(0, 1.5),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '$day',
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
-                height: 1.1,
+      return Center(
+        child: SizedBox(
+          width: 52,
+          height: 52,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: combo.gradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-            ),
-            const SizedBox(height: 2),
-            // Mini colored dot pills for each distinct habit in the combo
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: combo.habitColors.take(4).map((c) {
-                return Container(
-                  width: 3.2,
-                  height: 3.2,
-                  margin: const EdgeInsets.symmetric(horizontal: 0.6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        blurRadius: 1,
-                      ),
-                    ],
+              border: Border.all(
+                color: isSelected ? AppTheme.textPrimary : Colors.white.withValues(alpha: 0.9),
+                width: isSelected ? 2.8 : 1.3,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: combo.gradientColors.first.withValues(alpha: 0.22),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
+                if (isSelected)
+                  BoxShadow(
+                    color: AppTheme.textPrimary.withValues(alpha: 0.25),
+                    blurRadius: 7,
+                    spreadRadius: 1,
                   ),
-                );
-              }).toList(),
+              ],
             ),
-          ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$day',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    height: 1.0,
+                  ),
+                ),
+                const SizedBox(height: 3.5),
+                // Micro dots for each habit in the combo (showing actual habit colors!)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: combo.habitColors.take(4).map((c) {
+                    return Container(
+                      width: 5.5,
+                      height: 5.5,
+                      margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                      decoration: BoxDecoration(
+                        color: c,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 0.9),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.25),
+                            blurRadius: 1,
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
         ),
       );
     }
 
-    // 2. Single habit day: clean colored ring & tint
+    // 2. Single habit day: calm solid soft-color circle + single dot
     if (combo != null && !combo.isMultiHabit) {
       final color = combo.gradientColors.first;
-      return Container(
-        margin: const EdgeInsets.all(1.5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: color.withValues(alpha: 0.16),
-          border: Border.all(
-            color: isSelected ? AppTheme.textPrimary : color,
-            width: isSelected ? 2.2 : 1.6,
+      return Center(
+        child: SizedBox(
+          width: 52,
+          height: 52,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: color,
+              border: Border.all(
+                color: isSelected ? AppTheme.textPrimary : Colors.white.withValues(alpha: 0.9),
+                width: isSelected ? 2.8 : 1.3,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: color.withValues(alpha: 0.22),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
+                if (isSelected)
+                  BoxShadow(
+                    color: AppTheme.textPrimary.withValues(alpha: 0.25),
+                    blurRadius: 7,
+                    spreadRadius: 1,
+                  ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$day',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    height: 1.0,
+                  ),
+                ),
+                const SizedBox(height: 3.5),
+                Container(
+                  width: 4.5,
+                  height: 4.5,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.95),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
+            ),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: color.withValues(alpha: 0.20),
-              blurRadius: 3,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '$day',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: isSelected ? AppTheme.textPrimary : color,
-                height: 1.1,
-              ),
-            ),
-            const SizedBox(height: 2),
-            Container(
-              width: 3.2,
-              height: 3.2,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ],
         ),
       );
     }
 
     // 3. Inactive / Empty Day
-    return Container(
-      margin: const EdgeInsets.all(1.5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: isSelected
-            ? AppTheme.primaryContainer
-            : (isToday ? AppTheme.surfaceMuted : Colors.transparent),
-        border: Border.all(
-          color: isSelected
-              ? AppTheme.primary
-              : (isToday ? AppTheme.outline : Colors.transparent),
-          width: isSelected ? 1.8 : 1.0,
-        ),
-      ),
-      child: Center(
-        child: Text(
-          '$day',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.w700 : (isToday ? FontWeight.w600 : FontWeight.w500),
+    return Center(
+      child: SizedBox(
+        width: 52,
+        height: 52,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
             color: isSelected
-                ? AppTheme.primary
-                : (isToday ? AppTheme.textPrimary : AppTheme.textSecondary),
+                ? AppTheme.primaryContainer
+                : (isToday ? AppTheme.surfaceMuted : Colors.transparent),
+            border: Border.all(
+              color: isSelected
+                  ? AppTheme.primary
+                  : (isToday ? AppTheme.outline : Colors.transparent),
+              width: isSelected ? 2.4 : 1.0,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              '$day',
+              style: TextStyle(
+                fontSize: 15.0,
+                fontWeight: isSelected
+                    ? FontWeight.w700
+                    : (isToday ? FontWeight.w600 : FontWeight.w500),
+                color: isSelected
+                    ? AppTheme.primary
+                    : (isToday ? AppTheme.textPrimary : AppTheme.textSecondary),
+              ),
+            ),
           ),
         ),
       ),
@@ -1089,6 +1218,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget _buildDayLogItem(ActivityLogModel log) {
     final itemColor = HabitCombinationHelper.getCategoryColor(log.category);
     final itemIcon = HabitCombinationHelper.getCategoryIcon(log.category);
+    final isFilteredItem = _selectedCategoryFilter == log.category;
     String title = 'Aktivite';
     String detail = '';
 
@@ -1107,7 +1237,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         break;
       case 'water':
         title = 'Su Tüketimi';
-        detail = '${log.waterLiters ?? 0} Litre su içildi';
+        detail = '${log.waterLiters ?? 0} Litre su içildi • Günlük Hidrasyon Tamamlandı';
         break;
       case 'fitness':
         title = 'Fitness';
@@ -1118,8 +1248,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
         detail = '${log.caloriesSaved?.toStringAsFixed(0) ?? "0"} kcal kalori tasarrufu';
         break;
       case 'quit_smoking':
-        title = 'Sigara Bırakma';
-        detail = '${log.avoidedCount ?? 0} dal içilmedi • ${log.moneySavedTL?.toStringAsFixed(2) ?? "0"} TL kâr';
+        title = 'Sigara Bırakma / Tasarruf';
+        final smoked = log.smokedCount ?? 0;
+        final avoided = log.avoidedCount ?? 0;
+        final saved = log.moneySavedTL ?? 0.0;
+        final packPrice = widget.state.currentUser?.smokingPackPrice ?? 75.0;
+        final pricePerCig = packPrice / 20.0;
+        final cost = smoked * pricePerCig;
+
+        if (smoked == 0) {
+          detail = '0 dal içildi (Seri korundu 🔥) • $avoided dal tasarruf • +${saved.toStringAsFixed(2)} TL Kâr';
+        } else if (saved > 0) {
+          detail = '$smoked dal içildi (Seri bozuldu 💔) • $avoided dal pas geçildi • +${saved.toStringAsFixed(2)} TL Kâr';
+        } else {
+          final packs = smoked / 20.0;
+          final packStr = packs == packs.roundToDouble() ? packs.toInt().toString() : packs.toStringAsFixed(1);
+          detail = '$smoked dal içildi ($packStr paket • Seri bozuldu 💔) • ${cost.toStringAsFixed(2)} TL harcama';
+        }
         break;
       case 'quit_alcohol':
         title = 'Alkol Bırakma';
@@ -1139,9 +1284,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
       margin: const EdgeInsets.only(bottom: 7),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
       decoration: BoxDecoration(
-        color: itemColor.withValues(alpha: 0.06),
+        color: isFilteredItem ? itemColor.withValues(alpha: 0.12) : itemColor.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: itemColor.withValues(alpha: 0.2)),
+        border: Border.all(
+          color: isFilteredItem ? itemColor : itemColor.withValues(alpha: 0.2),
+          width: isFilteredItem ? 1.6 : 1.0,
+        ),
       ),
       child: Row(
         children: [
@@ -1178,52 +1326,222 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  Widget _buildGradientLegendBadge({
+  /// Color combinations and single habit legend directly beneath the calendar grid
+  Widget _buildDirectCalendarLegend() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: const [
+            Icon(Icons.palette_outlined, size: 18, color: AppTheme.primary),
+            SizedBox(width: 8),
+            Text(
+              'Renk Kombinasyonları ve Göstergeler',
+              style: TextStyle(
+                fontSize: 14.5,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.textPrimary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 5),
+        const Text(
+          'Takvimdeki sade renkler ve yapılan aktivite kombinasyonları:',
+          style: TextStyle(fontSize: 12.5, color: AppTheme.textSecondary),
+        ),
+        const SizedBox(height: 12),
+
+        // Tekil Alışkanlıklar
+        const Text(
+          'Tekil Alışkanlıklar',
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _buildSingleLegendItem('Koşu', HabitCombinationHelper.getCategoryColor('running'), 'running'),
+            _buildSingleLegendItem('Kitap', HabitCombinationHelper.getCategoryColor('reading'), 'reading'),
+            _buildSingleLegendItem('Yüzme', HabitCombinationHelper.getCategoryColor('swimming'), 'swimming'),
+            _buildSingleLegendItem('Fitness', HabitCombinationHelper.getCategoryColor('fitness'), 'fitness'),
+            _buildSingleLegendItem('Su', HabitCombinationHelper.getCategoryColor('water'), 'water'),
+            _buildSingleLegendItem('Zeka', HabitCombinationHelper.getCategoryColor('mind_games'), 'mind_games'),
+            _buildSingleLegendItem('Beslenme', HabitCombinationHelper.getCategoryColor('healthy_food'), 'healthy_food'),
+            _buildSingleLegendItem('Sigara Bırakma', HabitCombinationHelper.getCategoryColor('quit_smoking'), 'quit_smoking'),
+            _buildSingleLegendItem('Alkol Bırakma', HabitCombinationHelper.getCategoryColor('quit_alcohol'), 'quit_alcohol'),
+          ],
+        ),
+        const SizedBox(height: 14),
+
+        // Kombinasyonlar
+        const Text(
+          'Renk Kombinasyonları (Birlikte Yapılanlar)',
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _buildComboLegendItem(
+              label: 'Yüzme + Koşu',
+              colors: [
+                HabitCombinationHelper.getCategoryColor('swimming'),
+                HabitCombinationHelper.getCategoryColor('running'),
+              ],
+            ),
+            _buildComboLegendItem(
+              label: 'Koşu + Kitap',
+              colors: [
+                HabitCombinationHelper.getCategoryColor('running'),
+                HabitCombinationHelper.getCategoryColor('reading'),
+              ],
+            ),
+            _buildComboLegendItem(
+              label: 'Fitness + Su',
+              colors: [
+                HabitCombinationHelper.getCategoryColor('fitness'),
+                HabitCombinationHelper.getCategoryColor('water'),
+              ],
+            ),
+            _buildComboLegendItem(
+              label: 'Kitap + Zeka',
+              colors: [
+                HabitCombinationHelper.getCategoryColor('reading'),
+                HabitCombinationHelper.getCategoryColor('mind_games'),
+              ],
+            ),
+            _buildComboLegendItem(
+              label: 'Beslenme + Su',
+              colors: [
+                HabitCombinationHelper.getCategoryColor('healthy_food'),
+                HabitCombinationHelper.getCategoryColor('water'),
+              ],
+            ),
+            _buildComboLegendItem(
+              label: 'Koşu + Fitness',
+              colors: [
+                HabitCombinationHelper.getCategoryColor('running'),
+                HabitCombinationHelper.getCategoryColor('fitness'),
+              ],
+            ),
+            _buildComboLegendItem(
+              label: '3\'lü Seri',
+              colors: const [
+                Color(0xFF4A88C7),
+                Color(0xFF48A97C),
+                Color(0xFFD99B43),
+              ],
+            ),
+            _buildComboLegendItem(
+              label: '4+ Usta Serisi',
+              colors: const [
+                Color(0xFF4A6B82),
+                Color(0xFF5A78A5),
+                Color(0xFF48A97C),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildComboLegendItem({
     required String label,
     required List<Color> colors,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: colors),
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: colors.first.withValues(alpha: 0.25),
-            blurRadius: 3,
-            offset: const Offset(0, 1),
+        color: AppTheme.surfaceMuted,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.outlineVariant),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 12,
+            height: 12,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: colors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: colors.first.withValues(alpha: 0.25),
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12.5,
+              fontWeight: FontWeight.w600,
+              color: AppTheme.textPrimary,
+            ),
           ),
         ],
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 10.5,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-        ),
       ),
     );
   }
 
-  Widget _buildSingleLegendChip(String label, Color color) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 9,
-          height: 9,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
+  Widget _buildSingleLegendItem(String label, Color color, String category) {
+    final isSelected = _selectedCategoryFilter == category;
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _selectedCategoryFilter = isSelected ? null : category;
+        });
+      },
+      borderRadius: BorderRadius.circular(12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+        decoration: BoxDecoration(
+          color: isSelected ? color.withValues(alpha: 0.16) : AppTheme.surfaceMuted,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? color : AppTheme.outlineVariant,
+            width: isSelected ? 1.6 : 1.0,
           ),
         ),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary, fontWeight: FontWeight.w500),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 11,
+              height: 11,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: color,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12.5,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                color: isSelected ? color : AppTheme.textPrimary,
+              ),
+            ),
+            if (isSelected) ...[
+              const SizedBox(width: 4),
+              Icon(Icons.check_circle_rounded, size: 12, color: color),
+            ],
+          ],
         ),
-      ],
+      ),
     );
   }
 }

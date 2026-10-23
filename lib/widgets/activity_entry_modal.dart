@@ -650,13 +650,52 @@ class _ActivityEntryModalState extends State<ActivityEntryModal> {
   // --- 8. QUIT SMOKING FORM ---
   Widget _buildQuitSmokingForm() {
     final smoked = int.tryParse(_smokedCtrl.text) ?? 0;
-    final avoided = max(0, widget.user.smokingBaselineDaily - smoked);
-    final pricePerCig = widget.user.smokingPackPrice / 20.0;
+    final baseline = widget.user.smokingBaselineDaily > 0 ? widget.user.smokingBaselineDaily : 20;
+    final packPrice = widget.user.smokingPackPrice > 0 ? widget.user.smokingPackPrice : 75.0;
+    final pricePerCig = packPrice / 20.0; // 1 paket 20 dal (örn. 75 / 20 = 3.75 TL)
+
+    // Formül: Normalde içilen - Bugün içilen = Tasarruf edilen (içilmeyen) dal sayısı
+    final avoided = max(0, baseline - smoked);
     final moneySaved = avoided * pricePerCig;
+    final spentCost = smoked * pricePerCig;
+
+    final isMaxSavings = smoked == 0;
+    final isPartialSavings = smoked > 0 && smoked < baseline;
+    final isOverBaseline = smoked > baseline;
+
+    Color badgeColor = AppTheme.success;
+    if (isOverBaseline) {
+      badgeColor = AppTheme.error;
+    } else if (smoked == baseline) {
+      badgeColor = AppTheme.textSecondary;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Ayarlardaki normal dal ve fiyat bilgilendirmesi
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: AppTheme.surfaceMuted,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AppTheme.outlineVariant),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.tune_rounded, size: 16, color: AppTheme.primary),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Ayarlardaki Günlük Normal Hedef: $baseline dal • Paket: ${packPrice.toStringAsFixed(0)} TL (Dal başı ${pricePerCig.toStringAsFixed(2)} TL)',
+                  style: const TextStyle(fontSize: 11.5, color: AppTheme.textSecondary, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+
         TextFormField(
           controller: _smokedCtrl,
           keyboardType: TextInputType.number,
@@ -675,34 +714,122 @@ class _ActivityEntryModalState extends State<ActivityEntryModal> {
           },
         ),
         const SizedBox(height: 12),
+
+        // Tasarruf / Kâr Kartı (Dal sayısı 0 olduğunda maksimum kâr)
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppTheme.quitSmoking.withValues(alpha: 0.09),
+            color: badgeColor.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppTheme.quitSmoking.withValues(alpha: 0.3)),
+            border: Border.all(color: badgeColor.withValues(alpha: 0.3)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(Icons.wallet_rounded, color: AppTheme.quitSmoking, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Kâr: ${moneySaved.toStringAsFixed(2)} TL',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                      color: AppTheme.quitSmoking,
+                  Row(
+                    children: [
+                      Icon(
+                        isMaxSavings
+                            ? Icons.savings_rounded
+                            : (isOverBaseline ? Icons.warning_amber_rounded : Icons.account_balance_wallet_rounded),
+                        color: badgeColor,
+                        size: 22,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        isOverBaseline
+                            ? 'Kâr: 0.00 TL'
+                            : '+${moneySaved.toStringAsFixed(2)} TL KÂR',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          color: badgeColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                    decoration: BoxDecoration(
+                      color: badgeColor.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      isMaxSavings
+                          ? 'Maksimum Tasarruf ($avoided Dal)'
+                          : (isPartialSavings
+                              ? '$avoided Dal İçilmedi'
+                              : (isOverBaseline ? '+${smoked - baseline} Dal Aşım' : 'Hedef Sınırı')),
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w700,
+                        color: badgeColor,
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
-              Text(
-                'Normalde içtiğiniz ${widget.user.smokingBaselineDaily} dala göre bugün $avoided dal sigara içmediniz ve ${moneySaved.toStringAsFixed(2)} TL kâr ettiniz!',
-                style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+              const SizedBox(height: 8),
+              const Divider(height: 1, color: AppTheme.outlineVariant),
+              const SizedBox(height: 8),
+
+              if (isMaxSavings)
+                Text(
+                  '🎉 Harika irade! Bugün hiç sigara içmeyerek normalde içtiğiniz $baseline dalın tamamından (${(baseline / 20.0).toStringAsFixed(1)} paket) tasarruf ettiniz ve tam ${moneySaved.toStringAsFixed(2)} TL kâr sağladınız!',
+                  style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary, fontWeight: FontWeight.w600),
+                )
+              else if (isPartialSavings)
+                Text(
+                  'Normalde içtiğiniz $baseline dala göre bugün sadece $smoked dal içtiniz. $avoided dal sigarayı pas geçerek ${moneySaved.toStringAsFixed(2)} TL kâr sağladınız! (İçilen $smoked dal maliyeti: ${spentCost.toStringAsFixed(2)} TL)',
+                  style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+                )
+              else if (smoked == baseline)
+                Text(
+                  'Bugün normal tüketiminiz olan $baseline dalın tamamı içildi. Toplam ${spentCost.toStringAsFixed(2)} TL harcandı, tasarruf sağlanamadı.',
+                  style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+                )
+              else
+                Text(
+                  'Bugün normal tüketiminizden ${smoked - baseline} dal daha fazla içtiniz (${((smoked - baseline) * pricePerCig).toStringAsFixed(2)} TL bütçe aşımı). Toplam harcama: ${spentCost.toStringAsFixed(2)} TL.',
+                  style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+
+        // Seri Durumu Bilgilendirmesi (Sigara içilirse seri sıfırlanır kuralı)
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+          decoration: BoxDecoration(
+            color: (smoked > 0 ? AppTheme.error : AppTheme.success).withValues(alpha: 0.09),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: (smoked > 0 ? AppTheme.error : AppTheme.success).withValues(alpha: 0.3),
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                smoked > 0 ? Icons.heart_broken_rounded : Icons.local_fire_department_rounded,
+                size: 19,
+                color: smoked > 0 ? AppTheme.error : AppTheme.success,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  smoked > 0
+                      ? '⚠️ Dikkat: $smoked dal sigara içildiği için ${widget.habit.currentStreak} günlük seriniz sıfırlanacaktır.'
+                      : '🔥 Tebrikler! 0 dal sigara ile ${widget.habit.currentStreak} günlük seriniz devam edecek.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: smoked > 0 ? AppTheme.error : AppTheme.success,
+                  ),
+                ),
               ),
             ],
           ),

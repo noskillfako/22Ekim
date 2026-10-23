@@ -113,6 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     decoration: const InputDecoration(
                       labelText: '1 Paket Sigara Fiyatı (TL)',
+                      helperText: '1 Paket = 20 dal (Örn: 75 TL)',
                       suffixText: 'TL',
                     ),
                   ),
@@ -122,6 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'Normalde İçilen Günlük Dal Sayısı',
+                      helperText: 'Örn: 20 veya 30 dal (Tasarruf bu sayıdan düşülür)',
                       suffixText: 'dal',
                     ),
                   ),
@@ -163,131 +165,267 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void _showSmokingSettingsDialog(UserModel user) {
+    final smokePackCtrl = TextEditingController(text: user.smokingPackPrice.toStringAsFixed(0));
+    final smokeBaseCtrl = TextEditingController(text: user.smokingBaselineDaily.toString());
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) {
+          final dailyDal = int.tryParse(smokeBaseCtrl.text) ?? user.smokingBaselineDaily;
+          final packPrice = double.tryParse(smokePackCtrl.text) ?? user.smokingPackPrice;
+          final pricePerCig = packPrice / 20.0;
+          final dailyBudget = dailyDal * pricePerCig;
+          final packs = dailyDal / 20.0;
+          final packStr = packs == packs.roundToDouble() ? packs.toInt().toString() : packs.toStringAsFixed(1);
+
+          return AlertDialog(
+            title: const Row(
+              children: [
+                Icon(Icons.smoke_free_rounded, color: AppTheme.quitSmoking),
+                SizedBox(width: 8),
+                Text('Sigara ve Tasarruf Ayarları', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Tasarrufunuz, normalde günde içtiğiniz dal sayısından o gün içilen dal sayısı çıkarılarak hesaplanır.',
+                    style: TextStyle(fontSize: 12.5, color: AppTheme.textSecondary),
+                  ),
+                  const SizedBox(height: 14),
+
+                  TextField(
+                    controller: smokeBaseCtrl,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Normalde Günlük İçilen Dal Sayısı',
+                      helperText: 'Örn: 20 veya 30 dal',
+                      prefixIcon: Icon(Icons.smoking_rooms_rounded),
+                      suffixText: 'dal',
+                    ),
+                    onChanged: (_) => setDialogState(() {}),
+                  ),
+                  const SizedBox(height: 12),
+
+                  TextField(
+                    controller: smokePackCtrl,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(
+                      labelText: '1 Paket Sigara Fiyatı (TL)',
+                      helperText: '1 Paket = 20 dal',
+                      prefixIcon: Icon(Icons.receipt_long_rounded),
+                      suffixText: 'TL',
+                    ),
+                    onChanged: (_) => setDialogState(() {}),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // Canlı Hesaplama Önizleme Kartı
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppTheme.quitSmoking.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.quitSmoking.withValues(alpha: 0.25)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Hesaplama Özeti:',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.quitSmoking),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          '• 1 dal sigara maliyeti: ${pricePerCig.toStringAsFixed(2)} TL',
+                          style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary),
+                        ),
+                        Text(
+                          '• Normal günlük tüketim: $dailyDal dal ($packStr paket • ${dailyBudget.toStringAsFixed(2)} TL)',
+                          style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '• Hiç içmediğiniz bir gün: +${dailyBudget.toStringAsFixed(2)} TL KÂR elde edersiniz!',
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.success),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('İptal'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  widget.state.updateProfile(
+                    smokingBaselineDaily: int.tryParse(smokeBaseCtrl.text) ?? user.smokingBaselineDaily,
+                    smokingPackPrice: double.tryParse(smokePackCtrl.text) ?? user.smokingPackPrice,
+                  );
+                  Navigator.of(ctx).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Sigara ve tasarruf ayarları güncellendi!')),
+                  );
+                },
+                child: const Text('Kaydet'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   void _showAvatarPicker(BuildContext context) {
     final user = widget.state.currentUser;
     if (user == null) return;
 
-    showModalBottomSheet(
+    showDialog(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => Container(
-        padding: const EdgeInsets.fromLTRB(20, 14, 20, 28),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 44,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: AppTheme.outlineVariant,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                const Icon(Icons.face_retouching_natural_rounded, color: AppTheme.primary, size: 22),
-                const SizedBox(width: 8),
-                const Text(
-                  'Gerçekçi Avatarını Seç',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+      barrierDismissible: true,
+      builder: (ctx) => Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 460, maxHeight: 580),
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.12),
+                    blurRadius: 24,
+                    offset: const Offset(0, 8),
                   ),
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.close_rounded, size: 20),
-                  onPressed: () => Navigator.of(ctx).pop(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'Konu bütünlüğüyle tasarlanmış sağlıklı yaşam ve alışkanlık karakterleri:',
-              style: TextStyle(fontSize: 12.5, color: AppTheme.textSecondary),
-            ),
-            const SizedBox(height: 14),
-            SizedBox(
-              height: 380,
-              child: GridView.builder(
-                itemCount: AvatarService.avatars.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.82,
-                ),
-                itemBuilder: (ctx, index) {
-                  final avatar = AvatarService.avatars.values.elementAt(index);
-                  final isSelected = user.avatarId == avatar.id;
-
-                  return InkWell(
-                    onTap: () {
-                      widget.state.updateProfile(avatarId: avatar.id);
-                      Navigator.of(ctx).pop();
-                    },
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppTheme.primary.withValues(alpha: 0.08)
-                            : AppTheme.surfaceMuted,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: isSelected ? AppTheme.primary : AppTheme.outlineVariant,
-                          width: isSelected ? 2 : 1,
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.face_retouching_natural_rounded, color: AppTheme.primary, size: 20),
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Text(
+                          'Gerçekçi Avatarını Seç',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.textPrimary,
+                          ),
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          UserAvatarWidget(
-                            avatarId: avatar.id,
-                            radius: 26,
-                            showBadge: true,
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            avatar.label,
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                              color: isSelected ? AppTheme.primary : AppTheme.textPrimary,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            avatar.description.split('(').first.trim(),
-                            style: TextStyle(
-                              fontSize: 9,
-                              color: isSelected ? AppTheme.primary : AppTheme.textMuted,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded, size: 20),
+                        onPressed: () => Navigator.of(ctx).pop(),
+                        visualDensity: VisualDensity.compact,
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Konu bütünlüğüyle tasarlanmış sağlıklı yaşam ve alışkanlık karakterleri:',
+                      style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
                     ),
-                  );
-                },
+                  ),
+                  const SizedBox(height: 14),
+                  Flexible(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: AvatarService.avatars.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.82,
+                      ),
+                      itemBuilder: (ctx, index) {
+                        final avatar = AvatarService.avatars.values.elementAt(index);
+                        final isSelected = user.avatarId == avatar.id;
+
+                        return InkWell(
+                          onTap: () {
+                            widget.state.updateProfile(avatarId: avatar.id);
+                            Navigator.of(ctx).pop();
+                          },
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppTheme.primary.withValues(alpha: 0.08)
+                                  : AppTheme.surfaceMuted,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: isSelected ? AppTheme.primary : AppTheme.outlineVariant,
+                                width: isSelected ? 2 : 1,
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                UserAvatarWidget(
+                                  avatarId: avatar.id,
+                                  radius: 26,
+                                  showBadge: true,
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  avatar.label,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                                    color: isSelected ? AppTheme.primary : AppTheme.textPrimary,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  avatar.description.split('(').first.trim(),
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: isSelected ? AppTheme.primary : AppTheme.textMuted,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -616,6 +754,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
+
+                  // Sigara ve Tasarruf Ayarları Tile
+                  if (user != null) ...[
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppTheme.quitSmoking.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.smoke_free_rounded, color: AppTheme.quitSmoking, size: 22),
+                      ),
+                      title: const Text('Sigara ve Tasarruf Fiyat Ayarları', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                      subtitle: Text(
+                        'Normalde günde ${user.smokingBaselineDaily} dal (${(user.smokingBaselineDaily / 20.0).toStringAsFixed(1)} paket) • Paket: ${user.smokingPackPrice.toStringAsFixed(0)} TL',
+                        style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+                      ),
+                      trailing: ElevatedButton(
+                        onPressed: () => _showSmokingSettingsDialog(user),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.quitSmoking,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                        ),
+                        child: const Text('Belirle'),
+                      ),
+                    ),
+                    const Divider(height: 1, color: AppTheme.outlineVariant),
+                    const SizedBox(height: 6),
+                  ],
 
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,

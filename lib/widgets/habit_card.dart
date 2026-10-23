@@ -6,6 +6,7 @@ import '../theme/app_theme.dart';
 class HabitCard extends StatefulWidget {
   final HabitModel habit;
   final bool isCompletedToday;
+  final bool isStreakBrokenToday;
   final VoidCallback onLogActivity;
   final VoidCallback onDelete;
 
@@ -13,6 +14,7 @@ class HabitCard extends StatefulWidget {
     super.key,
     required this.habit,
     required this.isCompletedToday,
+    this.isStreakBrokenToday = false,
     required this.onLogActivity,
     required this.onDelete,
   });
@@ -208,7 +210,30 @@ class _HabitCardState extends State<HabitCard> with SingleTickerProviderStateMix
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    if (widget.isCompletedToday)
+                                    if (widget.isStreakBrokenToday)
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.error.withValues(alpha: 0.12),
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: const Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.heart_broken_rounded, size: 13, color: AppTheme.error),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              'Seri Bozuldu',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppTheme.error,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    else if (widget.isCompletedToday)
                                       Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                         decoration: BoxDecoration(
@@ -255,14 +280,19 @@ class _HabitCardState extends State<HabitCard> with SingleTickerProviderStateMix
                                     // Streak Badge with Fire Icon
                                     Row(
                                       children: [
-                                        const Text('🔥', style: TextStyle(fontSize: 13)),
+                                        Text(
+                                          widget.isStreakBrokenToday ? '💔' : '🔥',
+                                          style: const TextStyle(fontSize: 13),
+                                        ),
                                         const SizedBox(width: 3),
                                         Text(
                                           '${widget.habit.currentStreak} Gün Seri',
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w700,
-                                            color: Color(0xFFEA580C), // Orange
+                                            color: widget.isStreakBrokenToday
+                                                ? AppTheme.error
+                                                : const Color(0xFFEA580C), // Orange
                                           ),
                                         ),
                                         if (widget.habit.longestStreak > 0) ...[

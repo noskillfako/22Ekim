@@ -5,7 +5,10 @@ import '../services/avatar_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/activity_entry_modal.dart';
 import '../widgets/add_habit_modal.dart';
+import '../widgets/day_transition_dialog.dart';
 import '../widgets/habit_card.dart';
+import '../widgets/notification_center_modal.dart';
+import '../widgets/time_travel_modal.dart';
 
 class HomeScreen extends StatelessWidget {
   final AppState state;
@@ -16,6 +19,32 @@ class HomeScreen extends StatelessWidget {
     required this.state,
     required this.onNavigateToProfile,
   });
+
+  String _formatTurkishDateHeader(DateTime date) {
+    const months = [
+      'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+      'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+    ];
+    const weekdays = [
+      'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'
+    ];
+    final m = months[date.month - 1];
+    final w = weekdays[date.weekday - 1];
+    return '${date.day} $m, $w';
+  }
+
+  Future<void> _handleAdvanceDay(BuildContext context) async {
+    final result = await state.advanceDay(days: 1);
+    if (context.mounted) {
+      showDialog(
+        context: context,
+        builder: (_) => DayTransitionDialog(
+          result: result,
+          onDismiss: () => Navigator.of(context).pop(),
+        ),
+      );
+    }
+  }
 
   void _openAddHabitModal(BuildContext context) {
     showModalBottomSheet(
@@ -97,16 +126,28 @@ class HomeScreen extends StatelessWidget {
             avoidedCount: avoidedCount,
           );
 
+          final isSmokeBroken = habit.category == 'quit_smoking' && (smokedCount ?? 0) > 0;
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Row(
                 children: [
-                  const Icon(Icons.local_fire_department_rounded, color: Colors.white, size: 18),
+                  Icon(
+                    isSmokeBroken ? Icons.heart_broken_rounded : Icons.local_fire_department_rounded,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
-                  Text('${habit.title} kaydedildi! Zincir devam ediyor.'),
+                  Expanded(
+                    child: Text(
+                      isSmokeBroken
+                          ? '$smokedCount dal sigara içildiği için seri sıfırlandı. Pes etmek yok, yarın yeniden başla!'
+                          : '${habit.title} kaydedildi! Zincir devam ediyor.',
+                    ),
+                  ),
                 ],
               ),
-              backgroundColor: AppTheme.primary,
+              backgroundColor: isSmokeBroken ? AppTheme.error : AppTheme.primary,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
@@ -187,6 +228,90 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         actions: [
+          // Notifications Bell Button
+          IconButton(
+            tooltip: 'Bildirim Merkezi',
+            onPressed: () => NotificationCenterModal.show(context, state),
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: state.unreadNotificationsCount > 0
+                        ? AppTheme.primaryContainer
+                        : AppTheme.surfaceMuted,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: state.unreadNotificationsCount > 0
+                          ? AppTheme.primary.withValues(alpha: 0.4)
+                          : AppTheme.outlineVariant,
+                    ),
+                  ),
+                  child: Icon(
+                    state.unreadNotificationsCount > 0
+                        ? Icons.notifications_active_rounded
+                        : Icons.notifications_none_rounded,
+                    color: state.unreadNotificationsCount > 0
+                        ? AppTheme.primary
+                        : AppTheme.textSecondary,
+                    size: 22,
+                  ),
+                ),
+                if (state.unreadNotificationsCount > 0)
+                  Positioned(
+                    top: -2,
+                    right: -2,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppTheme.error,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      child: Text(
+                        '${state.unreadNotificationsCount}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+
+          // Demo Time Travel Button
+          IconButton(
+            tooltip: 'Demo Zaman Makinesi',
+            onPressed: () => TimeTravelModal.show(context, state),
+            icon: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: state.isSimulatedTime
+                    ? const Color(0xFFFEF3C7)
+                    : AppTheme.surfaceMuted,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: state.isSimulatedTime
+                      ? const Color(0xFFF59E0B)
+                      : AppTheme.outlineVariant,
+                ),
+              ),
+              child: Icon(
+                Icons.schedule_rounded,
+                color: state.isSimulatedTime
+                    ? const Color(0xFFD97706)
+                    : AppTheme.textSecondary,
+                size: 22,
+              ),
+            ),
+          ),
+
           // General "+" Button in Top Right (Header)
           Padding(
             padding: const EdgeInsets.only(right: 14.0),
@@ -257,6 +382,127 @@ class HomeScreen extends StatelessWidget {
             )
           : CustomScrollView(
               slivers: [
+                // Demo Zaman & Gün Simülatörü Banner
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                    decoration: BoxDecoration(
+                      color: state.isSimulatedTime
+                          ? const Color(0xFFFFFBEB)
+                          : AppTheme.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: state.isSimulatedTime
+                            ? const Color(0xFFF59E0B)
+                            : AppTheme.outlineVariant,
+                        width: state.isSimulatedTime ? 1.5 : 1.0,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.04),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: state.isSimulatedTime
+                                ? const Color(0xFFF59E0B).withValues(alpha: 0.18)
+                                : AppTheme.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            state.isSimulatedTime
+                                ? Icons.history_toggle_off_rounded
+                                : Icons.calendar_today_rounded,
+                            color: state.isSimulatedTime
+                                ? const Color(0xFFD97706)
+                                : AppTheme.primary,
+                            size: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    _formatTurkishDateHeader(state.currentDateTime),
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.textPrimary,
+                                    ),
+                                  ),
+                                  if (state.isSimulatedTime) ...[
+                                    const SizedBox(width: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF59E0B),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: const Text(
+                                        'DEMO',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                              Text(
+                                state.isSimulatedTime
+                                    ? 'Saat: ${state.currentDateTime.hour.toString().padLeft(2, '0')}:${state.currentDateTime.minute.toString().padLeft(2, '0')} (Simülasyon Aktif)'
+                                    : 'Gerçek zamanlı görünüm',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: AppTheme.textSecondary.withValues(alpha: 0.85),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Quick Advance +1 Day Button
+                        ElevatedButton.icon(
+                          onPressed: () => _handleAdvanceDay(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            elevation: 0,
+                          ),
+                          icon: const Icon(Icons.fast_forward_rounded, size: 15),
+                          label: const Text(
+                            '+1 Gün',
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        IconButton(
+                          tooltip: 'Tarih & Saat Ayarla',
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                          icon: const Icon(Icons.tune_rounded, size: 19, color: AppTheme.textSecondary),
+                          onPressed: () => TimeTravelModal.show(context, state),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 // Top Motivation Card
                 SliverToBoxAdapter(
                   child: Container(
@@ -365,10 +611,15 @@ class HomeScreen extends StatelessWidget {
                     (context, index) {
                       final habit = habits[index];
                       final isCompletedToday = habit.lastCompletedDate == today;
+                      final isStreakBrokenToday = habit.category == 'quit_smoking' &&
+                          state.getLogsForDate(today).any(
+                                (l) => l.habitId == habit.id && (l.smokedCount ?? 0) > 0,
+                              );
 
                       return HabitCard(
                         habit: habit,
                         isCompletedToday: isCompletedToday,
+                        isStreakBrokenToday: isStreakBrokenToday,
                         onLogActivity: () => _openActivityEntryModal(context, habit),
                         onDelete: () => _confirmDeleteHabit(context, habit),
                       );
